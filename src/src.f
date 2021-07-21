@@ -2,10 +2,12 @@
 
       use, intrinsic :: iso_fortran_env, only : dp=>real64
 
-      implicit none
+      implicit none (type, external)
 
       private
       public :: setulb
+
+      external :: dtrsl, dcopy, dpofa, daxpy, dscal
 
       contains
 c================    L-BFGS-B (version 2.3)   ==========================
