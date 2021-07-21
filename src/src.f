@@ -240,11 +240,8 @@ c     ************
      +  wa(lwa),iwa(1),iwa(n+1),iwa(2*n+1),task,iprint,
      +  csave,lsave,isave(22),dsave)
 
-      return
+      end subroutine setulb
 
-      end
-
-c======================= The end of setulb =============================
 
       subroutine mainlb(n, m, x, l, u, nbd, f, g, factr, pgtol, ws, wy,
      +                  sy, ss, wt, wn, snd, z, r, d, t, wa,
@@ -955,11 +952,8 @@ c     Save local variables.
      +' Bad direction in the line search;',/,
      +'   refresh the lbfgs memory and restart the iteration.')
 
-      return
+      end subroutine mainlb
 
-      end
-
-c======================= The end of mainlb =============================
 
       subroutine active(n, l, u, nbd, x, iwhere, iprint,
      +                  prjctd, cnstnd, boxed)
@@ -1057,11 +1051,8 @@ c                   this variable is always fixed
 
  1001 format (/,'At X0 ',i9,' variables are exactly at the bounds')
 
-      return
+      end subroutine active
 
-      end
-
-c======================= The end of active =============================
 
       subroutine bmv(m, sy, wt, col, v, p, info)
 
@@ -1173,11 +1164,8 @@ c                 =-D^(-1/2)p1+D^(-1)L'p2.
          p(i) = p(i) + sum
   60  continue
 
-      return
+      end subroutine bmv
 
-      end
-
-c======================== The end of bmv ===============================
 
       subroutine cauchy(n, x, l, u, nbd, g, iorder, iwhere, t, d, xcp,
      +                  m, wy, ws, sy, wt, theta, col, head, p, c, wbp,
@@ -1668,11 +1656,8 @@ c       which will be used in computing r = Z'(B(x^c - x) + g).
  5010 format ('Distance to the next break point =  ',1p,d11.4)
  6010 format ('Distance to the stationary point =  ',1p,d11.4)
 
-      return
+      end subroutine cauchy
 
-      end
-
-c====================== The end of cauchy ==============================
 
       subroutine cmprlb(n, m, x, g, ws, wy, sy, wt, z, r, wa, index,
      +                 theta, col, head, nfree, cnstnd, info)
@@ -1736,11 +1721,8 @@ c     ************
   34     continue
       endif
 
-      return
+      end subroutine cmprlb
 
-      end
-
-c======================= The end of cmprlb =============================
 
       subroutine errclb(n, m, factr, l, u, nbd, task, info, k)
 
@@ -1796,11 +1778,8 @@ c                                    return
          endif
   10  continue
 
-      return
+      end subroutine errclb
 
-      end
-
-c======================= The end of errclb =============================
 
       subroutine formk(n, nsub, ind, nenter, ileave, indx2, iupdat,
      +                 updatd, wn, wn1, m, ws, wy, sy, theta, col,
@@ -2122,11 +2101,8 @@ c     Cholesky factorization of (2,2) block of wn.
          return
       endif
 
-      return
+      end subroutine formk
 
-      end
-
-c======================= The end of formk ==============================
 
       subroutine formt(m, wt, sy, ss, col, theta, info)
 
@@ -2190,11 +2166,8 @@ c        J' stored in the upper triangle of wt.
          info = -3
       endif
 
-      return
+      end subroutine formt
 
-      end
-
-c======================= The end of formt ==============================
 
       subroutine freev(n, nfree, index, nenter, ileave, indx2,
      +                 iwhere, wrk, updatd, cnstnd, iprint, iter)
@@ -2286,11 +2259,8 @@ c     Find the index set of free and active variables at the GCP.
       if (iprint .ge. 99) write (6,*)
      +      nfree,' variables are free at GCP ',iter + 1
 
-      return
+      end subroutine freev
 
-      end
-
-c======================= The end of freev ==============================
 
       subroutine hpsolb(n, t, iorder, iheap)
       integer          iheap, n, iorder(n)
@@ -2398,11 +2368,8 @@ c     Put the least member in t(n).
          iorder(n) = indxou
       endif
 
-      return
+      end subroutine hpsolb
 
-      end
-
-c====================== The end of hpsolb ==============================
 
       subroutine lnsrlb(n, l, u, nbd, x, f, fold, gd, gdold, g, d, r, t,
      +                  z, stp, dnorm, dtd, xstep, stpmx, iter, ifun,
@@ -2528,11 +2495,8 @@ c                               Line search is impossible.
          task = 'NEW_X'
       endif
 
-      return
+      end subroutine lnsrlb
 
-      end
-
-c======================= The end of lnsrlb =============================
 
       subroutine matupd(n, m, ws, wy, sy, ss, d, r, itail,
      +                  iupdat, col, head, theta, rr, dr, stp, dtd)
@@ -2615,11 +2579,8 @@ c                                             and the last column of SS:
       endif
       sy(col,col) = dr
 
-      return
+      end subroutine matupd
 
-      end
-
-c======================= The end of matupd =============================
 
       subroutine prn1lb(n, m, l, u, x, iprint, itfile, epsmch)
 
@@ -2686,11 +2647,8 @@ c     ************
  9001 format (/,3x,'it',3x,'nf',2x,'nint',2x,'nact',2x,'sub',2x,'itls',
      +        2x,'stepl',4x,'tstep',5x,'projg',8x,'f')
 
-      return
+      end subroutine prn1lb
 
-      end
-
-c======================= The end of prn1lb =============================
 
       subroutine prn2lb(n, x, f, g, iprint, itfile, iter, nfgv, nact,
      +                  sbgnrm, nint, word, iword, iback, stp, xstep)
@@ -2754,11 +2712,8 @@ c                             the truncated Newton step has been used.
      +  (/,'At iterate',i5,4x,'f= ',1p,d12.5,4x,'|proj g|= ',1p,d12.5)
  3001 format(2(1x,i4),2(1x,i5),2x,a3,1x,i4,1p,2(2x,d7.1),1p,2(1x,d10.3))
 
-      return
+      end subroutine prn2lb
 
-      end
-
-c======================= The end of prn2lb =============================
 
       subroutine prn3lb(n, x, f, task, iprint, info, itfile,
      +                  iter, nfgv, nintol, nskip, nact, sbgnrm,
@@ -2886,11 +2841,8 @@ c     ************
      +' Possible causes: 1 error in function or gradient evaluation;',/,
      +'                  2 rounding error dominate computation.')
 
-      return
+      end subroutine prn3lb
 
-      end
-
-c======================= The end of prn3lb =============================
 
       subroutine projgr(n, l, u, nbd, x, g, sbgnrm)
 
@@ -2935,11 +2887,8 @@ c     ************
         sbgnrm = max(sbgnrm,abs(gi))
   15  continue
 
-      return
+      end subroutine projgr
 
-      end
-
-c======================= The end of projgr =============================
 
       subroutine subsm(n, m, nsub, ind, l, u, nbd, x, d, ws, wy, theta,
      +                 col, head, iword, wv, wn, iprint, info)
@@ -3218,11 +3167,8 @@ c     Backtrack to the feasible region.
  1003 format ('Subspace solution X =  ',/,(4x,1p,6(1x,d11.4)))
  1004 format (/,'----------------exit SUBSM --------------------',/)
 
-      return
+      end subroutine subsm
 
-      end
-
-c====================== The end of subsm ===============================
 
       subroutine dcsrch(f,g,stp,ftol,gtol,xtol,stpmin,stpmax,
      +                  task,isave,dsave)
@@ -3566,9 +3512,8 @@ c     Save local variables.
       dsave(12) = width
       dsave(13) = width1
 
-      end
+      end subroutine dcsrch
 
-c====================== The end of dcsrch ==============================
 
       subroutine dcstep(stx,fx,dx,sty,fy,dy,stp,fp,dp,brackt,
      +                  stpmin,stpmax)
