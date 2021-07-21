@@ -1,3 +1,6 @@
+build*/
+
+iterate.dat
 # Prerequisites
 *.d
 
