@@ -37,14 +37,8 @@ c        Argonne National Laboratory and Northwestern University.
 c        Written by
 c                           Ciyou Zhu
 c        in collaboration with R.H. Byrd, P. Lu-Chen and J. Nocedal.
-c
-c     NOTE: The user should adapt the subroutine 'timer' if 'etime' is
-c           not available on the system.  An example for system
-c           AIX Version 3.2 is available at the end of this driver.
-c
-c     **************
 
-      program driver
+      program driver1
 
       use solver_lbfgsb, only : setulb
 
@@ -103,25 +97,25 @@ c     u   specifies the upper bounds.
 
 c     First set bounds on the odd-numbered variables.
 
-      do 10 i = 1, n, 2
+      do i = 1, n, 2
          nbd(i) = 2
          l(i)   = 1.0d0
          u(i)   = 1.0d2
-   10 continue
+      end do
 
 c     Next set bounds on the even-numbered variables.
 
-      do 12 i = 2, n, 2
+      do i = 2, n, 2
          nbd(i) = 2
          l(i)   =-1.0d2
          u(i)   = 1.0d2
-   12 continue
+      end do
 
 c     We now define the starting point.
 
-      do 14 i = 1, n
+      do i = 1, n
          x(i) = 3.0d0
-   14 continue
+      end do
 
 c     We now write the heading of the output.
 
@@ -134,7 +128,7 @@ c     We start the iteration by initializing task.
       task = 'START'
 
 c     ------- The beginning of the loop ----------
-  111 continue
+      main : do
 
 c     This is the call to the L-BFGS-B code.
 
@@ -149,31 +143,28 @@ c        function f and gradient g values at the current x.
 c        Compute function value f for the sample problem.
 
          f = .25d0*(x(1) - 1.d0)**2
-         do 20 i = 2, n
+         do i = 2, n
             f = f + (x(i) - x(i-1)**2)**2
-   20    continue
+         end do
          f = 4.d0*f
 
 c        Compute gradient g for the sample problem.
 
          t1   = x(2) - x(1)**2
          g(1) = 2.d0*(x(1) - 1.d0) - 1.6d1*x(1)*t1
-         do 22 i = 2, n-1
+         do i = 2, n-1
             t2   = t1
             t1   = x(i+1) - x(i)**2
             g(i) = 8.d0*t2 - 1.6d1*x(i)*t1
-   22    continue
+         end do
          g(n) = 8.d0*t1
 
 c        Go back to the minimization routine.
-         goto 111
 
       elseif (task(1:5) .eq. 'NEW_X') then
 
 c        The minimization routine has returned with a new iterate,
 c        and we have opted to continue the iteration.
-
-         goto 111
 
       else
 
@@ -183,14 +174,14 @@ c        if the default output is not used and the execution is
 c        not stopped intentionally by the user.
 
          if (iprint .le. -1 .and. task(1:4) .ne. 'STOP') write(6,*) task
+         exit main
 
       endif
 
-c     ---------- The end of the loop -------------
+      end do main
 
-      stop
 
-      end
+      end program driver1
 
 c======================= The end of driver1 ============================
 
@@ -339,15 +330,3 @@ c
 c     --------------------------------------------------------------
 c           END OF THE DESCRIPTION OF THE VARIABLES IN L-BFGS-B
 c     --------------------------------------------------------------
-c
-c     << An example of subroutine 'timer' for AIX Version 3.2 >>
-c
-c     subroutine timer(ttime)
-c     double precision ttime
-c     integer itemp, integer mclock
-c
-c     itemp = mclock()
-c     ttime = dble(itemp)*1.0d-2
-c     return
-c     end
-c-----------------------------------------------------------------------
