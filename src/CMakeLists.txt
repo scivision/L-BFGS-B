@@ -1,1 +1,1 @@
-target_sources(lbfgsb PRIVATE blas1.f dpmeps.f linpack.f src.f)
+target_sources(lbfgsb PRIVATE blas1.f linpack.f src.f)

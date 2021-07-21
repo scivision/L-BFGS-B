@@ -8,7 +8,7 @@ DRIVER1 = examples/driver1.f
 DRIVER2 = examples/driver2.f
 DRIVER3 = examples/driver3.f
 
-ROUTINES = src/src.f src/blas1.f src/dpmeps.f src/linpack.f
+ROUTINES = src/src.f src/blas1.f src/linpack.f
 
 all :  lbfgsb1 lbfgsb2 lbfgsb3
 

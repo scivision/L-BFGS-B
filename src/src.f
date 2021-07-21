@@ -1,5 +1,7 @@
       module solver_lbfgsb
 
+      use, intrinsic :: iso_fortran_env, only : dp=>real64
+
       implicit none
 
       private
@@ -440,7 +442,7 @@ c     ************
      +                 head,col,iter,itail,iupdat,
      +                 nint,nfgv,info,ifun,
      +                 iword,nfree,nact,ileave,nenter
-      double precision theta,fold,ddot,dr,rr,tol,dpmeps,
+      double precision theta,fold,ddot,dr,rr,tol,
      +                 xstep,sbgnrm,ddum,dnorm,dtd,epsmch,
      +                 cpu1,cpu2,cachyt,sbtime,lnscht,time1,time2,
      +                 gd,gdold,stp,stpmx,time
@@ -453,7 +455,8 @@ c     ************
 
 c        Generate the current machine precision.
 
-         epsmch = dpmeps()
+         ! epsmch = dpmeps()
+         epsmch = epsilon(1._dp)
          fold   = 0.0d0
          dnorm  = 0.0d0
          cpu1   = 0.0d0
