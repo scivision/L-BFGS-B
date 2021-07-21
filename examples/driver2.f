@@ -42,6 +42,10 @@ c     **************
 
       program driver
 
+      use solver_lbfgsb, only : setulb
+
+      implicit none
+
 c     This driver shows how to replace the default stopping test
 c     by other termination criteria. It also illustrates how to
 c     print the values of several parameters during the course of

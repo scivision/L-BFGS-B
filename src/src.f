@@ -1,9 +1,17 @@
+      module solver_lbfgsb
+
+      implicit none
+
+      private
+      public :: setulb
+
+      contains
 c================    L-BFGS-B (version 2.3)   ==========================
 
       subroutine setulb(n, m, x, l, u, nbd, f, g, factr, pgtol, wa, iwa,
      +                 task, iprint, csave, lsave, isave, dsave)
 
-      character*60     task, csave
+      character(60)     task, csave
       logical          lsave(4)
       integer          n, m, iprint,
      +                 nbd(n), iwa(3*n), isave(44)
@@ -243,7 +251,7 @@ c======================= The end of setulb =============================
      +                  index, iwhere, indx2, task, iprint,
      +                  csave, lsave, isave, dsave)
 
-      character*60     task, csave
+      character(60)     task, csave
       logical          lsave(4)
       integer          n, m, iprint, nbd(n), index(n),
      +                 iwhere(n), indx2(n), isave(23)
@@ -430,7 +438,7 @@ c
 c     ************
 
       logical          prjctd,cnstnd,boxed,updatd,wrk
-      character*3      word
+      character(3)      word
       integer          i,k,nintol,itfile,iback,nskip,
      +                 head,col,iter,itail,iupdat,
      +                 nint,nfgv,info,ifun,
@@ -444,7 +452,7 @@ c     ************
 
       if (task .eq. 'START') then
 
-         call timer(time1)
+         call cpu_time(time1)
 
 c        Generate the current machine precision.
 
@@ -627,7 +635,7 @@ c     Compute the Generalized Cauchy Point (GCP).
 c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-      call timer(cpu1)
+      call cpu_time(cpu1)
       call cauchy(n,x,l,u,nbd,g,indx2,iwhere,t,d,z,
      +            m,wy,ws,sy,wt,theta,col,head,
      +            wa(1),wa(2*m+1),wa(4*m+1),wa(6*m+1),nint,
@@ -641,11 +649,11 @@ c         singular triangular system detected; refresh the lbfgs memory.
          theta  = one
          iupdat = 0
          updatd = .false.
-         call timer(cpu2)
+         call cpu_time(cpu2)
          cachyt = cachyt + cpu2 - cpu1
          goto 222
       endif
-      call timer(cpu2)
+      call cpu_time(cpu2)
       cachyt = cachyt + cpu2 - cpu1
       nintol = nintol + nint
 
@@ -670,7 +678,7 @@ c     Subspace minimization.
 c
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
-      call timer(cpu1)
+      call cpu_time(cpu1)
 
 c     Form  the LEL^T factorization of the indefinite
 c       matrix    K = [-D -Y'ZZ'Y/theta     L_a'-R_z'  ]
@@ -690,7 +698,7 @@ c          refresh the lbfgs memory and restart the iteration.
          theta  = one
          iupdat = 0
          updatd = .false.
-         call timer(cpu2)
+         call cpu_time(cpu2)
          sbtime = sbtime + cpu2 - cpu1
          goto 222
       endif
@@ -714,12 +722,12 @@ c          refresh the lbfgs memory and restart the iteration.
          theta  = one
          iupdat = 0
          updatd = .false.
-         call timer(cpu2)
+         call cpu_time(cpu2)
          sbtime = sbtime + cpu2 - cpu1
          goto 222
       endif
 
-      call timer(cpu2)
+      call cpu_time(cpu2)
       sbtime = sbtime + cpu2 - cpu1
  555  continue
 
@@ -734,7 +742,7 @@ c     Generate the search direction d:=z-x.
       do 40 i = 1, n
          d(i) = z(i) - x(i)
   40  continue
-      call timer(cpu1)
+      call cpu_time(cpu1)
  666  continue
       call lnsrlb(n,l,u,nbd,x,f,fold,gd,gdold,g,d,r,t,z,stp,dnorm,
      +            dtd,xstep,stpmx,iter,ifun,iback,nfgv,info,task,
@@ -767,7 +775,7 @@ c             refresh the lbfgs memory and restart the iteration.
             iupdat = 0
             updatd = .false.
             task   = 'RESTART_FROM_LNSRCH'
-            call timer(cpu2)
+            call cpu_time(cpu2)
             lnscht = lnscht + cpu2 - cpu1
             goto 222
          endif
@@ -776,7 +784,7 @@ c          return to the driver for calculating f and g; reenter at 666.
          goto 1000
       else
 c          calculate and print out the quantities related to the new X.
-         call timer(cpu2)
+         call cpu_time(cpu2)
          lnscht = lnscht + cpu2 - cpu1
          iter = iter + 1
 
@@ -877,7 +885,7 @@ c -------------------- the end of the loop -----------------------------
 
       goto 222
  999  continue
-      call timer(time2)
+      call cpu_time(time2)
       time = time2 - time1
       call prn3lb(n,x,f,task,iprint,info,itfile,
      +            iter,nfgv,nintol,nskip,nact,sbgnrm,
@@ -1736,7 +1744,7 @@ c======================= The end of cmprlb =============================
 
       subroutine errclb(n, m, factr, l, u, nbd, task, info, k)
 
-      character*60     task
+      character(60)     task
       integer          n, m, info, k, nbd(n)
       double precision factr, l(n), u(n)
 
@@ -2401,7 +2409,7 @@ c====================== The end of hpsolb ==============================
      +                  iback, nfgv, info, task, boxed, cnstnd, csave,
      +                  isave, dsave)
 
-      character*60     task, csave
+      character(60)     task, csave
       logical          boxed, cnstnd
       integer          n, iter, ifun, iback, nfgv, info,
      +                 nbd(n), isave(2)
@@ -2687,7 +2695,7 @@ c======================= The end of prn1lb =============================
       subroutine prn2lb(n, x, f, g, iprint, itfile, iter, nfgv, nact,
      +                  sbgnrm, nint, word, iword, iback, stp, xstep)
 
-      character*3      word
+      character(3)      word
       integer          n, iprint, itfile, iter, nfgv, nact, nint,
      +                 iword, iback
       double precision f, sbgnrm, stp, xstep, x(n), g(n)
@@ -2757,8 +2765,8 @@ c======================= The end of prn2lb =============================
      +                  time, nint, word, iback, stp, xstep, k,
      +                  cachyt, sbtime, lnscht)
 
-      character*60     task
-      character*3      word
+      character(60)     task
+      character(3)      word
       integer          n, iprint, info, itfile, iter, nfgv, nintol,
      +                 nskip, nact, nint, iback, k
       double precision f, sbgnrm, time, stp, xstep, cachyt, sbtime,
@@ -3218,7 +3226,7 @@ c====================== The end of subsm ===============================
 
       subroutine dcsrch(f,g,stp,ftol,gtol,xtol,stpmin,stpmax,
      +                  task,isave,dsave)
-      character*(*) task
+      character(*), intent(inout) :: task
       integer isave(2)
       double precision f,g,stp,ftol,gtol,xtol,stpmin,stpmax
       double precision dsave(13)
@@ -3815,6 +3823,6 @@ c     Compute the new step.
 
       stp = stpf
 
-      end
+      end subroutine dcstep
 
-c====================== The end of dcstep ==============================
+      end module solver_lbfgsb

@@ -46,6 +46,10 @@ c     **************
 
       program driver
 
+      use solver_lbfgsb, only : setulb
+
+      implicit none
+
 c     This simple driver demonstrates how to call the L-BFGS-B code to
 c     solve a sample problem (the extended Rosenbrock function
 c     subject to bounds on the variables). The dimension n of this

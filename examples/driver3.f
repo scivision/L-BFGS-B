@@ -43,6 +43,10 @@ c     **************
 
       program driver
 
+      use solver_lbfgsb, only : setulb
+
+      implicit none
+
 c     This time-controlled driver shows that it is possible to terminate
 c     a run by elapsed CPU time, and yet be able to print all desired
 c     information. This driver also illustrates the use of two
@@ -140,7 +144,7 @@ c     ------- The beginning of the loop ----------
 
 c     We begin counting the CPU time.
 
-      call timer(time1)
+      call cpu_time(time1)
 
   111 continue
 
@@ -155,7 +159,7 @@ c        The minimization routine has returned to request the
 c        function f and gradient g values at the current x.
 c        Before evaluating f and g we check the CPU time spent.
 
-         call timer(time2)
+         call cpu_time(time2)
          if (time2 - time1 .gt. tlimit) then
             task='STOP: CPU EXCEEDING THE TIME LIMIT.'
 
